@@ -7,12 +7,25 @@
  */
 
 namespace App\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class ArticleController
 {
-public function homePage()
+    /**
+     * @Route("/news")
+     */
+
+    public function homePage()
     {
         return new Response('OMG! My first page already! WOOO!');
+    }
+    /**
+     * @Route("/ne")
+     */
+    public function show()
+    {
+        return new Response("Yes it's good Route avec annotations");
     }
 }
