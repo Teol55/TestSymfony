@@ -22,10 +22,10 @@ class ArticleController
         return new Response('OMG! My first page already! WOOO!');
     }
     /**
-     * @Route("/ne")
+     * @Route("/test/{slug}")
      */
-    public function show()
+    public function show($slug)
     {
-        return new Response("Yes it's good Route avec annotations");
+        return new Response("Yes it's good Route avec annotations:".$slug);
     }
 }
