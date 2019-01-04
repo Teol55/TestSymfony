@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
 use App\Service\MarkdownHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -35,17 +36,8 @@ class ArticleController extends AbstractController
      * @param MarkdownHelper $markdownHelper
      * @return Response
      */
-    public function homePage($slug, MarkdownHelper $markdownHelper, EntityManagerInterface $em )
+    public function show(Article $article)
     {
-
-        $repository = $em->getRepository(Article::class);
-        /** @var Article $article */
-        $article = $repository->findOneBy(['slug' => $slug]);
-
-        if (!$article) {
-            throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
-        }
-
 
 
         $comments = [
@@ -62,11 +54,15 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/test",name="app_test")
+     * @Route("/",name="app_homepage")
      */
-    public function show()
+    public function homepage(ArticleRepository $repository)
     {
-        return $this->render('/article/homepage.html.twig');
+
+        $articles = $repository->findAllPublishedOrderedByNewest();
+        return $this->render('article/homepage.html.twig', [
+            'articles' => $articles,
+        ]);
     }
 
     /**
@@ -75,9 +71,11 @@ class ArticleController extends AbstractController
      * @param LoggerInterface $logger
      * @return JsonResponse
      */
-    public function toggleArticleHeart($slug, LoggerInterface $logger)
+    public function toggleArticleHeart(Article $article, LoggerInterface $logger,EntityManagerInterface $em)
     {
+        $article->setHeartCount($article->getHeartCount()+1);
+        $em->flush();
         $logger->info('Article is being hearted');
-        return new JsonResponse(['hearts' => rand(5, 100)]);
+        return new JsonResponse(['hearts' => $article->getHeartCount()]);
     }
 }
