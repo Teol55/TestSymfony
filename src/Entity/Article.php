@@ -1,14 +1,16 @@
 <?php
 
 namespace App\Entity;
-
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  */
 class Article
 {
+    use TimestampableEntity;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -17,12 +19,13 @@ class Article
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string",nullable=true, length=255)
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=100)
+     ** @Gedmo\Slug(fields={"title"})
      */
     private $slug;
 
@@ -51,6 +54,8 @@ class Article
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imageFilename;
+
+
 
     public function getId(): ?int
     {
@@ -151,5 +156,9 @@ class Article
 
         return $this;
     }
+
+
+
+
 
 }
