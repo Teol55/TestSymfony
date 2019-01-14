@@ -25,6 +25,7 @@ class A0CommentFixtures extends BaseFixtures implements DependentFixtureInterfac
     }
     public function getDependencies()
     {
+
         return [ArticleFixtures::class];
     }
 }

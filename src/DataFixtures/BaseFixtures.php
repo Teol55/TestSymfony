@@ -6,6 +6,12 @@ use Faker\Factory;
 use Faker\Generator;
 abstract class BaseFixtures extends Fixture
 {
+    /** @var ObjectManager */
+    private $manager;
+    /** @var Generator */
+    protected $faker;
+    private $referencesIndex = [];
+
     abstract protected function loadData(ObjectManager $manager);
     public function load(ObjectManager $manager)
     {
