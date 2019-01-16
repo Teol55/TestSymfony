@@ -23,7 +23,9 @@ class ArticleFixtures extends BaseFixtures implements DependentFixtureInterface
     ];
     public function loadData(ObjectManager $manager)
     {
-        $this->createMany(Article::class, 10, function(Article $article, $count) use ($manager) {
+        $this->createMany(10, 'main_article', function($i) use ($manager) {
+
+            $article=new Article();
             $article->setTitle($this->faker->randomElement(self::$articleTitles))
                 ->setContent(<<<EOF
 Spicy **jalapeno bacon** ipsum dolor amet veniam shank in dolore. Ham hock nisi landjaeger cow,
@@ -51,7 +53,7 @@ EOF
                 ->setImageFilename($this->faker->randomElement(self::$articleImages))
             ;
 
-
+        return $article;
 
         });
         $manager->flush();
