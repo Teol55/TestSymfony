@@ -52,7 +52,10 @@ EOF
                 ->setHeartCount($this->faker->numberBetween(5, 100))
                 ->setImageFilename($this->faker->randomElement(self::$articleImages))
             ;
-
+            $tags = $this->getRandomReferences('main_tags', 3);
+            foreach ($tags as $tag) {
+                $article->addTag($tag);
+            }
         return $article;
 
         });

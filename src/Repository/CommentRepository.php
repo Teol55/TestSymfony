@@ -27,14 +27,16 @@ class CommentRepository extends ServiceEntityRepository
             ->orderBy(['createdAt' => 'DESC'])
             ;
     }
+
     /**
      * @param string|null $term
+     * @return QueryBuilder
      */
     public function getWithSearchQueryBuilder(?string $term): QueryBuilder
     {
         $qb=$this->createQueryBuilder('c')
             ->innerJoin('c.article', 'a')
-            ->addSelect('a');;
+            ->addSelect('a');
 
         if($term)
         {

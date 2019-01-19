@@ -16,10 +16,7 @@ class TagFixtures extends BaseFixtures
             $tag= new Tag();
             $tag->setName($this->faker->realText(20));
 
-//            $tags = $this->getRandomReferences('main_tags', 3);
-//            foreach ($tags as $tag) {
-//                $article->addTag($tag);
-//            }
+
             return $tag;
         });
         $manager->flush();
