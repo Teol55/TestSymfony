@@ -44,10 +44,7 @@ class Article
      */
     private $publishedat;
 
-    /**
-     * @ORM\Column(type="string", length=60)
-     */
-    private $author;
+
 
 
     /**
@@ -70,6 +67,12 @@ class Article
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="articles")
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     public function __construct()
     {
@@ -137,7 +140,7 @@ class Article
         return $this->author;
     }
 
-    public function setAuthor(string $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
 
