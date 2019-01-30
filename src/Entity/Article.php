@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Criteria;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -25,6 +27,7 @@ class Article
 
     /**
      * @ORM\Column(type="string",nullable=true, length=255)
+     * @Assert\NotBlank(message="Get creative and think of a title!")
      */
     private $title;
 
@@ -135,6 +138,11 @@ class Article
         return $this;
     }
 
+    public function isPublished():bool
+    {
+        return $this->publishedat !== null;
+    }
+
     public function getAuthor(): ?string
     {
         return $this->author;
@@ -239,7 +247,17 @@ class Article
 
         return $this;
     }
-
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if (stripos($this->getTitle(), 'the borg') !== false) {
+            $context->buildViolation('Um.. the Bork kinda makes us nervous')
+                ->atPath('title')
+                ->addViolation();
+        }
+    }
 
 
 
